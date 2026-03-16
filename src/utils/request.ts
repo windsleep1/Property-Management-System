@@ -1,8 +1,7 @@
 import axios from "axios";
 
-// 使用CORS代理服务
-const proxyUrl = "https://api.codetabs.com/v1/proxy?quest=";
-const apiBaseUrl = "http://community.byesame.com";
+// 使用Vercel的Serverless Function作为代理
+const proxyUrl = '/api/proxy';
 
 const server = axios.create({
     // baseURL: "http://community.byesame.com",
@@ -19,14 +18,15 @@ server.interceptors.request.use((config: any) => {
     //     config.headers.token = localStorage.getItem("token")
     // }
     // return config
-    // 添加CORS代理
-    if (config.url.startsWith('/')) {
-        config.url = proxyUrl + encodeURIComponent(apiBaseUrl + config.url);
-    }
+    
+    // 构建代理请求URL
+    config.url = `${proxyUrl}?path=${encodeURIComponent(config.url)}`;
+    
     if (!config.url.includes("login")) { 
         config.headers.token = localStorage.getItem("token")
     }
     return config
+
 })
 
 // 响应拦截器

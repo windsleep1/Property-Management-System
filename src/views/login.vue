@@ -103,7 +103,6 @@ const ruleForm = ref<FormInstance>()
 const form = ref({
   username: 'admin',
   password: '123456',
-  // Aa@123456
   // 管理员账号：admin01
   // 密码：123456
   code: '',
