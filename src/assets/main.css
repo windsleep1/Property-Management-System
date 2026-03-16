@@ -1,0 +1,23 @@
+
+* {
+  padding: 0;
+  margin: 0;
+}
+.el-menu--popup-container .el-menu--popup {
+  display: flex !important;
+  background-color: white !important;
+  color: black !important;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,.1) !important;
+}
+.el-popper.is-light {
+  border: none !important;
+}
+ .el-menu--horizontal .el-menu-item:not(.is-disabled):hover {
+  background-color: white !important;
+  color: black !important;
+ }
+.el-menu--popup-container .el-menu--popup .el-menu-item {
+  --el-menu-bg-color: white !important;
+  --el-menu-text-color: black !important;
+  margin-right: 20px !important;
+}
