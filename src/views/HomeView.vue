@@ -49,10 +49,14 @@
             <template #title>房屋管理</template>
             <el-menu-item index="/home/house/unit">房屋单元</el-menu-item>
             <!-- /home/house/houseNum -->
-            <el-menu-item v-if="userType === '1'" index="/home/house/houseNum">房号管理</el-menu-item>
+            <el-menu-item v-if="userType === '1'" index="/home/house/houseNum"
+              >房号管理</el-menu-item
+            >
             <el-menu-item v-if="userType === '2'" index="/home/notFound">房号管理</el-menu-item>
             <el-menu-item v-if="userType === '2'" index="/home/notFound">房屋设备信息</el-menu-item>
-            <el-menu-item v-if="userType === '1'" index="/home/house/houseEquipment">房屋设备信息</el-menu-item>
+            <el-menu-item v-if="userType === '1'" index="/home/house/houseEquipment"
+              >房屋设备信息</el-menu-item
+            >
           </el-sub-menu>
           <el-sub-menu index="3">
             <template #title>车位管理</template>
@@ -72,8 +76,12 @@
           </el-sub-menu>
           <el-sub-menu index="6">
             <template #title>用户管理</template>
-            <el-menu-item v-if="userType === '1'" index="/home/user/normal">普通用户信息</el-menu-item>
-            <el-menu-item v-if="userType === '1'" index="/home/user/manger">管理员信息</el-menu-item>
+            <el-menu-item v-if="userType === '1'" index="/home/user/normal"
+              >普通用户信息</el-menu-item
+            >
+            <el-menu-item v-if="userType === '1'" index="/home/user/manger"
+              >管理员信息</el-menu-item
+            >
             <el-menu-item v-if="userType === '2'" index="/home/notFound">普通用户信息</el-menu-item>
             <el-menu-item v-if="userType === '2'" index="/home/notFound">管理员信息</el-menu-item>
             <!-- <el-menu-item v-if="userType === '2'" index="/home/notFound">用户总表查询</el-menu-item> -->
@@ -117,7 +125,7 @@
           </div>
           <div style="align-items: center">
             <span>{{ userName.length > 5 ? userName.substring(0, 5) + '...' : userName }},</span>
-            <span style="margin-left:10px;">你好!</span>
+            <span style="margin-left: 10px">你好!</span>
           </div>
           <div style="margin-left: 10px">
             <el-icon
@@ -186,7 +194,7 @@ const exit = ref(false)
 
 const getInfo = async () => {
   const res = await getAdmin({ token: token })
-    .then((res) => {
+    .then((res: any) => {
       userImg.value = 'http://community.byesame.com/file/' + res.head
       srcList.value = ['http://community.byesame.com/file/' + res.head]
       userName.value = res.username

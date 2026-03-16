@@ -34,7 +34,7 @@
                 :disabled-date="disabledDate"
                 :shortcuts="shortcuts"
                 :size="pickersize"
-                style="margin-right: 10px;width: 265px"
+                style="margin-right: 10px; width: 265px"
                 value-format="YYYY-MM-DD"
               />
             </el-form-item>
@@ -56,8 +56,19 @@
           <el-col :span="8">
             <div class="btns" style="margin-left: 60px">
               <el-button @click="SearchForm" style="height: 40px" type="primary" :icon="Search" />
-              <el-button v-if="userType === '1'" @click="addForm" style="padding: 0 35px; height: 40px" type="success" :icon="Plus">录入</el-button>
-              <el-button @click="ResetForm" style="padding: 0 35px; height: 40px" type="primary" :icon="RefreshRight"
+              <el-button
+                v-if="userType === '1'"
+                @click="addForm"
+                style="padding: 0 35px; height: 40px"
+                type="success"
+                :icon="Plus"
+                >录入</el-button
+              >
+              <el-button
+                @click="ResetForm"
+                style="padding: 0 35px; height: 40px"
+                type="primary"
+                :icon="RefreshRight"
                 >重置</el-button
               >
             </div>
@@ -115,9 +126,28 @@
         </el-table-column>
         <el-table-column label="操作" header-align="center" align="center">
           <template #default="scope">
-            <el-button v-if="userType === '2'" @click="getDetail(scope.row)" size="small" style="color: rgb(98, 168, 234)">房屋单元详情</el-button>
-            <el-button v-if="userType === '1'" @click="getDetail(scope.row)" size="small" style="color: rgb(98, 168, 234)">详情</el-button>
-            <el-button v-if="userType === '1'" @click="DeleteTable(scope.row)" size="small" type="danger" plain>归档</el-button>
+            <el-button
+              v-if="userType === '2'"
+              @click="getDetail(scope.row)"
+              size="small"
+              style="color: rgb(98, 168, 234)"
+              >房屋单元详情</el-button
+            >
+            <el-button
+              v-if="userType === '1'"
+              @click="getDetail(scope.row)"
+              size="small"
+              style="color: rgb(98, 168, 234)"
+              >详情</el-button
+            >
+            <el-button
+              v-if="userType === '1'"
+              @click="DeleteTable(scope.row)"
+              size="small"
+              type="danger"
+              plain
+              >归档</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -143,7 +173,7 @@
 import { Search, RefreshRight, Calendar, Plus } from '@element-plus/icons-vue'
 import { ref, onMounted } from 'vue'
 import type { ComponentSize } from 'element-plus'
-import { getHouse,getSearch,deleteUnit } from '@/api/house/danyuan'
+import { getHouse, getSearch, deleteUnit } from '@/api/house/danyuan'
 import router from '@/router/index'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
@@ -197,32 +227,32 @@ const background = ref(true)
 
 // 处理时间(加八小时)
 const formatDateTime = (dateTime: string) => {
-  if (!dateTime) return '暂无';
-  
+  if (!dateTime) return '暂无'
+
   // 创建UTC日期对象
-  const date = new Date(dateTime);
-  
+  const date = new Date(dateTime)
+
   // 直接获取UTC时间的各个部分，手动加8小时
-  const year = date.getUTCFullYear();
-  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-  const day = String(date.getUTCDate()).padStart(2, '0');
-  
+  const year = date.getUTCFullYear()
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0')
+  const day = String(date.getUTCDate()).padStart(2, '0')
+
   // 手动加8小时（处理跨天情况）
-  let hours = date.getUTCHours() + 8;
-  let displayDay = day;
-  
+  let hours = date.getUTCHours() + 8
+  let displayDay = day
+
   // 处理加8小时后跨天的情况
   if (hours >= 24) {
-    hours -= 24;
+    hours -= 24
     // 计算下一天的日期（简化处理，不考虑月份和年份变化）
-    displayDay = String(parseInt(day) + 1).padStart(2, '0');
+    displayDay = String(parseInt(day) + 1).padStart(2, '0')
   }
-  
-  const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-  const seconds = String(date.getUTCSeconds()).padStart(2, '0');
-  
-  return `${year}-${month}-${displayDay} ${String(hours).padStart(2, '0')}:${minutes}:${seconds}`;
-};
+
+  const minutes = String(date.getUTCMinutes()).padStart(2, '0')
+  const seconds = String(date.getUTCSeconds()).padStart(2, '0')
+
+  return `${year}-${month}-${displayDay} ${String(hours).padStart(2, '0')}:${minutes}:${seconds}`
+}
 
 const handleSizeChange = (val: number) => {
   pageSize.value = val
@@ -236,75 +266,76 @@ const handleCurrentChange = (val: number) => {
 }
 
 const getTableData = () => {
-  getHouse(query.value).then((ref) => {
+  getHouse(query.value).then((ref: any) => {
     tableData.value = ref.data
     total.value = ref.total
   })
 }
 // 搜素
 const SearchForm = () => {
-    const obj = {
-        ...form.value,
-        currPage: 1,
-        pageNum: 10,
-        token: localStorage.getItem('token')
-    }
-    getSearch(obj).then(ref => {
-        tableData.value = ref.data
-        total.value = ref.total
-    })
+  const obj = {
+    ...form.value,
+    currPage: 1,
+    pageNum: 10,
+    token: localStorage.getItem('token'),
+  }
+  getSearch(obj).then((ref: any) => {
+    tableData.value = ref.data
+    total.value = ref.total
+  })
 }
 
 // 重置
 const ResetForm = () => {
-    form.value = {
-        communityname: '',
-        unitname: '',
-        createDt: '',
-        value: null,
-    }
-    SearchForm()
+  form.value = {
+    communityname: '',
+    unitname: '',
+    createDt: '',
+    value: null,
+  }
+  SearchForm()
 }
 
 // 跳转详情
 const getDetail = (row: any) => {
-    router.push({
-        path: '/home/house/unitDetail',
-        query: {
-            type: 'DETAIL',
-            detailId: row.id
-        }
-    })
+  router.push({
+    path: '/home/house/unitDetail',
+    query: {
+      type: 'DETAIL',
+      detailId: row.id,
+    },
+  })
 }
 
 // 归档
 const DeleteTable = (row: any) => {
-  ElMessageBox.confirm('确认删除该单元信息？','提示',{
+  ElMessageBox.confirm('确认删除该单元信息？', '提示', {
     cancelButtonText: '取消',
     confirmButtonText: '确定',
-    type: 'warning'
-  }).then(() => {
-    deleteUnit({
-      id: row.id,
-      token: localStorage.getItem('token')
-    }).then(() => {
-      ElMessage.success('信息删除成功')
-      getTableData()
-    }).catch(err => {
-      ElMessage.error(err)
-    })
-  }).catch(() => {
-
+    type: 'warning',
   })
+    .then(() => {
+      deleteUnit({
+        id: row.id,
+        token: localStorage.getItem('token'),
+      })
+        .then(() => {
+          ElMessage.success('信息删除成功')
+          getTableData()
+        })
+        .catch((err) => {
+          ElMessage.error(err)
+        })
+    })
+    .catch(() => {})
 }
 
 // 录入
 const addForm = () => {
   router.push({
-    name: 'unitAdd'
+    name: 'unitAdd',
   })
 }
-
 
 onMounted(() => {
   getTableData()

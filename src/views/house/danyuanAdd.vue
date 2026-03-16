@@ -10,7 +10,7 @@
               ref="ruleFormRef"
               :model="ruleForm"
               :rules="rules"
-              style="width: 90%;"
+              style="width: 90%"
             >
               <el-row>
                 <el-col :span="12">
@@ -49,7 +49,7 @@
                 />
 
                 <Editor
-                  style="width:100%;height: 300px; overflow-y: hidden;border: 1px solid #ccc"
+                  style="width: 100%; height: 300px; overflow-y: hidden; border: 1px solid #ccc"
                   v-model="ruleForm.unitcontext"
                   :defaultConfig="editorConfig"
                   mode="default"
@@ -57,7 +57,7 @@
                 />
               </el-form-item>
             </el-form>
-            <div style="margin-top: 20px;"></div>
+            <div style="margin-top: 20px"></div>
             <el-button
               @click="goback"
               type="primary"
@@ -82,11 +82,11 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, shallowRef } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
-import { getUnitDetail,addUnit } from '@/api/house/danyuan'
+import { getUnitDetail, addUnit } from '@/api/house/danyuan'
 import { useRoute } from 'vue-router'
 import router from '@/router/index'
 import { Document, TopLeft } from '@element-plus/icons-vue'
-import hljs from "highlight.js"
+import hljs from 'highlight.js'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -115,7 +115,6 @@ const rules = ref({
 })
 const route = useRoute()
 
-
 const goback = () => {
   router.push({ name: 'unit' })
 }
@@ -124,7 +123,7 @@ const goback = () => {
 const toolbarConfig = {
   excludeKeys: [],
 }
-const editorConfig = { }
+const editorConfig = {}
 
 // 组件销毁时，也及时销毁编辑器
 onBeforeUnmount(() => {
@@ -134,19 +133,19 @@ onBeforeUnmount(() => {
 })
 
 // 编辑器初始化完成时的回调函数
-const editorInit = (editor) => {
+const editorInit = (editor: any) => {
   editorRef.value = editor // 记录 editor 实例，重要！
 }
 
 // 定义指令，自动使用highlight.js渲染所有<pre><dode>代码块
-  const vHigelight = {
-  mounted(el) {
+const vHigelight = {
+  mounted(el: any) {
     let blocks = el.querySelectorAll('pre code')
-    blocks.forEach((block)=>{
+    blocks.forEach((block: any) => {
       block.setAttribute('style', 'margin-top: 8px;')
       hljs.highlightBlock(block)
     })
-  }
+  },
 }
 
 // 表单提交
@@ -154,33 +153,32 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      ElMessageBox.confirm('确定提交信息?','提示',{
+      ElMessageBox.confirm('确定提交信息?', '提示', {
         cancelButtonText: '取消',
         confirmButtonText: '确定',
-      }).then(() => {
-        addUnit({
+      })
+        .then(() => {
+          addUnit({
             ...ruleForm.value,
             token: localStorage.getItem('token'),
-        }).then(res => {
-            ElMessage.success('单元信息录入成功')
-            goback()
-        }).catch(err => {
-            ElMessage.error(err)
-            goback()
+          })
+            .then((res) => {
+              ElMessage.success('单元信息录入成功')
+              goback()
+            })
+            .catch((err) => {
+              ElMessage.error(err)
+              goback()
+            })
         })
-      }).catch(() => {
-
-      })
+        .catch(() => {})
     } else {
       console.log('error submit!', fields)
     }
   })
 }
 
-
-onMounted(() => {
-  
-})
+onMounted(() => {})
 </script>
 
 <style scoped lang="scss">
@@ -194,6 +192,6 @@ onMounted(() => {
   padding: 20px;
 }
 :deep(.w-e-scroll) {
-    overflow-y:hidden !important;
+  overflow-y: hidden !important;
 }
 </style>
