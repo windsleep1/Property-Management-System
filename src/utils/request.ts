@@ -1,11 +1,12 @@
 import axios from "axios";
 
-// 使用环境变量设置API基础URL
-const baseURL = import.meta.env.VITE_API_BASE_URL || "http://community.byesame.com";
+// 使用CORS代理服务
+const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+const apiBaseUrl = "http://community.byesame.com";
 
 const server = axios.create({
     // baseURL: "http://community.byesame.com",
-    baseURL,
+    baseURL: proxyUrl + apiBaseUrl,
     timeout: 5000,
     headers: {
         "Content-Type": "application/json; charset=utf-8"
@@ -39,25 +40,6 @@ server.interceptors.response.use(
   },
   (error: any) => {  
     // 处理网络错误或服务器错误
-    // 如果是HTTPS请求失败，尝试使用HTTP请求
-    if (error.message.includes('Network Error') && baseURL.startsWith('https://')) {
-      console.log('HTTPS请求失败，尝试使用HTTP请求');
-      const httpURL = baseURL.replace('https://', 'http://');
-      const httpServer = axios.create({
-        baseURL: httpURL,
-        timeout: 5000,
-        headers: {
-            "Content-Type": "application/json; charset=utf-8"
-        }
-      });
-      
-      // 复制原始请求配置
-      const originalRequest = error.config;
-      originalRequest.baseURL = httpURL;
-      
-      // 重新发送请求
-      return httpServer(originalRequest);
-    }
     return Promise.reject(error);
   }
 );
