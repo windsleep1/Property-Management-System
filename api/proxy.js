@@ -2,15 +2,15 @@
 const axios = require('axios');
 
 module.exports = async (req, res) => {
-  // 处理OPTIONS请求
-  if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    return res.status(200).end();
-  }
-
   try {
+    // 处理OPTIONS请求
+    if (req.method === 'OPTIONS') {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+      return res.status(200).end();
+    }
+
     // 从请求中获取目标API路径
     const path = req.query.path;
     if (!path) {
@@ -28,12 +28,7 @@ module.exports = async (req, res) => {
       url: targetUrl,
       data: req.body,
       headers: {
-        'Content-Type': 'application/json',
-        ...req.headers,
-        // 移除可能导致问题的头
-        host: '',
-        origin: '',
-        referer: ''
+        'Content-Type': 'application/json'
       }
     });
     
@@ -50,3 +45,4 @@ module.exports = async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(500).json({ error: error.message });
   }
+};
