@@ -14,6 +14,6 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-  // base: '/Property-Management-System/',
-  base: './',
+  base: '/Property-Management-System/',
+  // base: './',
 })

@@ -1,11 +1,10 @@
 import axios from "axios";
 
 // 使用Vercel的Serverless Function作为代理
-const proxyUrl = '/api/proxy';
+// const proxyUrl = '/api/proxy';
 
 const server = axios.create({
-    // baseURL: "http://community.byesame.com",
-    // baseURL: proxyUrl + apiBaseUrl,
+    baseURL: "http://community.byesame.com",
     timeout: 5000,
     headers: {
         "Content-Type": "application/json; charset=utf-8"
@@ -14,20 +13,20 @@ const server = axios.create({
 
 //请求拦截器
 server.interceptors.request.use((config: any) => {
-    // if (!config.url.includes("login")) { 
-    //     config.headers.token = localStorage.getItem("token")
-    // }
-    // return config
-    
-    // 构建代理请求URL
-    if (config.url.startsWith('/')) {
-        config.url = `/api/proxy?path=${encodeURIComponent(config.url)}`;
-    }
-    
     if (!config.url.includes("login")) { 
         config.headers.token = localStorage.getItem("token")
     }
     return config
+    
+    // // 构建代理请求URL
+    // if (config.url.startsWith('/')) {
+    //     config.url = `/api/proxy?path=${encodeURIComponent(config.url)}`;
+    // }
+    
+    // if (!config.url.includes("login")) { 
+    //     config.headers.token = localStorage.getItem("token")
+    // }
+    // return config
 
 })
 
