@@ -20,7 +20,9 @@ server.interceptors.request.use((config: any) => {
     // return config
     
     // 构建代理请求URL
-    config.url = `${proxyUrl}?path=${encodeURIComponent(config.url)}`;
+    if (config.url.startsWith('/')) {
+        config.url = `/api/proxy?path=${encodeURIComponent(config.url)}`;
+    }
     
     if (!config.url.includes("login")) { 
         config.headers.token = localStorage.getItem("token")

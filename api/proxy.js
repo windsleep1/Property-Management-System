@@ -24,6 +24,7 @@ module.exports = async (req, res) => {
       method: req.method,
       url: targetUrl,
       data: req.body,
+      params: req.query,
       headers: {
         'Content-Type': 'application/json',
         ...req.headers,
