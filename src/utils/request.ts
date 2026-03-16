@@ -1,25 +1,35 @@
 import axios from "axios";
 
 // 使用CORS代理服务
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+const proxyUrl = "https://api.codetabs.com/v1/proxy?quest=";
 const apiBaseUrl = "http://community.byesame.com";
 
 const server = axios.create({
     // baseURL: "http://community.byesame.com",
-    baseURL: proxyUrl + apiBaseUrl,
+    // baseURL: proxyUrl + apiBaseUrl,
     timeout: 5000,
     headers: {
         "Content-Type": "application/json; charset=utf-8"
     }
 })
 
+//请求拦截器
 server.interceptors.request.use((config: any) => {
+    // if (!config.url.includes("login")) { 
+    //     config.headers.token = localStorage.getItem("token")
+    // }
+    // return config
+    // 添加CORS代理
+    if (config.url.startsWith('/')) {
+        config.url = proxyUrl + encodeURIComponent(apiBaseUrl + config.url);
+    }
     if (!config.url.includes("login")) { 
         config.headers.token = localStorage.getItem("token")
     }
     return config
 })
 
+// 响应拦截器
 server.interceptors.response.use(
   (response: any) => {  // 
     if (response.status >= 200 && response.status < 300) {
