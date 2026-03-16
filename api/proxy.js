@@ -17,14 +17,16 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'Missing path parameter' });
     }
 
+    // 构建完整的目标URL
     const targetUrl = `http://community.byesame.com${path}`;
+    
+    console.log('Forwarding request to:', targetUrl);
     
     // 转发请求到后端API
     const response = await axios({
       method: req.method,
       url: targetUrl,
       data: req.body,
-      params: req.query,
       headers: {
         'Content-Type': 'application/json',
         ...req.headers,
@@ -48,4 +50,3 @@ module.exports = async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(500).json({ error: error.message });
   }
-};
